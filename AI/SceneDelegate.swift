@@ -25,20 +25,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func setHomeAsRoot() {
-        let chatController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
-        
-        let navigationController = UINavigationController(rootViewController: chatController)
-        window?.rootViewController = navigationController
+        let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarStoryBoard")
+        window?.rootViewController = controller
+        //UINavigationController(rootViewController: )
         window?.makeKeyAndVisible()
     }
     
     func setLoginAsRoot() {
-        let loginController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
-        
-        let loginNavigationController = UINavigationController(rootViewController: loginController)
-        window?.rootViewController = loginNavigationController
+        let loginNavigation = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WelcomeViewController")
+        window?.rootViewController = UINavigationController(rootViewController: loginNavigation)
         window?.makeKeyAndVisible()
     }
+    
+
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

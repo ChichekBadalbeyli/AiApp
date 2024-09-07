@@ -2,7 +2,7 @@ import Foundation
 import Alamofire
 import FirebaseAuth
 
-class ChatModelController {
+class ChatViewModel {
     var currentConversation: Conversation
     var conversations: [Conversation] = []
     let chatManager = ChatManager()

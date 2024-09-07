@@ -49,8 +49,6 @@ class ProfileController: UIViewController {
         if let user = Auth.auth().currentUser {
             emailTextField.text = user.email
             fullnameTextField.text = user.displayName ?? "No Name"
-            
-            // Check if the user is signed in with Google
             for userInfo in user.providerData {
                 if userInfo.providerID == "google.com" {
                     isGoogleUser = true
@@ -62,53 +60,50 @@ class ProfileController: UIViewController {
     
     @IBAction func editButtonAction(_ sender: Any) {
         if isGoogleUser {
-            // Enable editing directly for Google users
             enableEditing()
         } else {
-            // Prompt for password for email/password authenticated users
             promptForPassword()
         }
     }
     
     @IBAction func updateButtonAction(_ sender: Any) {
         guard let newEmail = emailTextField.text, !newEmail.isEmpty else {
-              showAlert(message: "Please enter a valid email address.")
-              return
-          }
-          
-          if let newName = fullnameTextField.text, !newName.isEmpty {
-              let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-              changeRequest?.displayName = newName
-              changeRequest?.commitChanges { error in
-                  if let error = error {
-                      self.showAlert(message: "Failed to update name: \(error.localizedDescription)")
-                  } else {
-                      self.showAlert(message: "Name updated successfully.")
-                  }
-              }
-          }
-          
-          Auth.auth().currentUser?.updateEmail(to: newEmail) { error in
-              if let error = error {
-                  self.showAlert(message: "Failed to update email: \(error.localizedDescription)")
-              } else {
-                  self.showAlert(message: "Email updated successfully.")
-                  self.emailTextField.isUserInteractionEnabled = false
-                  self.newPasswordTextField.isUserInteractionEnabled = false
-                  self.updateInfoButton.isHidden = true
-              }
-          }
-          
-          // Only update password for non-Google users
-          if !isGoogleUser, let newPassword = newPasswordTextField.text, !newPassword.isEmpty {
-              Auth.auth().currentUser?.updatePassword(to: newPassword) { error in
-                  if let error = error {
-                      self.showAlert(message: "Failed to update password: \(error.localizedDescription)")
-                  } else {
-                      self.showAlert(message: "Password updated successfully.")
-                  }
-              }
-          }
+            showAlert(message: "Please enter a valid email address.")
+            return
+        }
+        
+        if let newName = fullnameTextField.text, !newName.isEmpty {
+            let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+            changeRequest?.displayName = newName
+            changeRequest?.commitChanges { error in
+                if let error = error {
+                    self.showAlert(message: "Failed to update name: \(error.localizedDescription)")
+                } else {
+                    self.showAlert(message: "Name updated successfully.")
+                }
+            }
+        }
+        
+        Auth.auth().currentUser?.updateEmail(to: newEmail) { error in
+            if let error = error {
+                self.showAlert(message: "Failed to update email: \(error.localizedDescription)")
+            } else {
+                self.showAlert(message: "Email updated successfully.")
+                self.emailTextField.isUserInteractionEnabled = false
+                self.newPasswordTextField.isUserInteractionEnabled = false
+                self.updateInfoButton.isHidden = true
+            }
+        }
+        
+        if !isGoogleUser, let newPassword = newPasswordTextField.text, !newPassword.isEmpty {
+            Auth.auth().currentUser?.updatePassword(to: newPassword) { error in
+                if let error = error {
+                    self.showAlert(message: "Failed to update password: \(error.localizedDescription)")
+                } else {
+                    self.showAlert(message: "Password updated successfully.")
+                }
+            }
+        }
     }
     
     private func promptForPassword() {

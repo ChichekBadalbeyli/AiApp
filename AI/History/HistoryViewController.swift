@@ -153,8 +153,8 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     @IBAction func profileButton(_ sender: Any) {
-        if let coordinator = storyboard?.instantiateViewController(withIdentifier: "ProfileController") as? ProfileController {
-            present(coordinator, animated: true, completion: nil)}
+        let coordinator = ProfileCoordinator(navigator: self.navigationController ?? UINavigationController())
+        coordinator.start()
     }
     
 }

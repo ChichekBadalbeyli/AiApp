@@ -17,7 +17,7 @@ class ChatViewController: UIViewController, UITableViewDelegate,UITableViewDataS
     
     @IBOutlet weak var stackView: UIStackView!
     
-    var viewModel = ChatModelController()
+    var viewModel = ChatViewModel()
     var viewController = HistoryViewController()
     
     override func viewDidLoad() {
