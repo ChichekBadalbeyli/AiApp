@@ -35,7 +35,6 @@ class ImageController: UIViewController, UITableViewDelegate, UITableViewDataSou
         print("Displaying image: \(imageData.description)")
         cell.maImage.image = imageData.image
         cell.imageDescription.text = imageData.description
-        
         return cell
     }
 }
