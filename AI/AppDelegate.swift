@@ -14,14 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
             FirebaseApp.configure()
-            
-            // Log the client ID for debugging
-//            if let clientID = FirebaseApp.app()?.options.clientID {
-//                print("Firebase Client ID: \(clientID)")
-//            } else {
-//                print("Failed to get Firebase Client ID")
-//            }
-            
             return true
         }
         
@@ -91,6 +83,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-    
 }
 
