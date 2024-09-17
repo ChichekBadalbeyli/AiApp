@@ -38,5 +38,4 @@ class ImageController: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         return cell
     }
-
 }
