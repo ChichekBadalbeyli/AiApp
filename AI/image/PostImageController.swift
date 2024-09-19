@@ -34,6 +34,7 @@ class PostImageController: UIViewController, UIImagePickerControllerDelegate, UI
             completion(result)
         }
     }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage {
             self.selectedImage = selectedImage
@@ -44,14 +45,13 @@ class PostImageController: UIViewController, UIImagePickerControllerDelegate, UI
                         guard let self = self else { return }
                         switch result {
                         case .success(let description):
-                            // Pass the original UIImage along with the fetched description
                             self.delegate?.didSelectImage(selectedImage, description: description)
+                            self.dismissImagePickerAndNavigate(picker, image: selectedImage, description: description)
                         case .failure(let error):
                             print("Error getting description: \(error.localizedDescription)")
                             self.delegate?.didSelectImage(selectedImage, description: "Failed to get description.")
+                            self.dismissImagePickerAndNavigate(picker, image: selectedImage, description: "Failed to get description.")
                         }
-                        
-                        self.dismissImagePickerAndNavigate(picker)
                     }
                 }
             } else {
@@ -67,9 +67,11 @@ class PostImageController: UIViewController, UIImagePickerControllerDelegate, UI
         picker.dismiss(animated: true, completion: nil)
     }
     
-    private func dismissImagePickerAndNavigate(_ picker: UIImagePickerController) {
+    private func dismissImagePickerAndNavigate(_ picker: UIImagePickerController, image: UIImage, description: String) {
         picker.dismiss(animated: true) {
             if let imageVC = self.storyboard?.instantiateViewController(withIdentifier: "ImageController") as? ImageController {
+                imageVC.selectedImage = image
+                imageVC.imageDescription = description  
                 self.present(imageVC, animated: true, completion: nil)
             }
         }
@@ -81,5 +83,4 @@ class PostImageController: UIViewController, UIImagePickerControllerDelegate, UI
         }
         return imageData.base64EncodedString()
     }
-    
 }
