@@ -8,11 +8,11 @@
 import Foundation
 import Alamofire
 
-protocol MovieManagerProtocol {
+protocol ChatManagerProtocol {
     func getChat (endpoint:ChatEndpoint, parameters: Parameters, completion: @escaping((Welcome?,String?)-> Void))
 }
 
-class ChatManager: MovieManagerProtocol {
+class ChatManager: ChatManagerProtocol {
     func getChat(endpoint: ChatEndpoint, parameters: Parameters, completion: @escaping ((Welcome?, String?) -> Void)) {
         NetworkManager.request(model: Welcome.self, endpoint: endpoint.rawValue, parameters: parameters, completion: completion)
     }
