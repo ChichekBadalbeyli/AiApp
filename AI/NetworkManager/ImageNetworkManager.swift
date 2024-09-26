@@ -5,7 +5,6 @@
 //  Created by Chichek on 04.09.24.
 //
 
-
 import Foundation
 import Alamofire
 import UIKit
