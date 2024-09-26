@@ -5,24 +5,6 @@
 //  Created by Chichek on 04.09.24.
 //
 
-//import UIKit
-
-//protocol PostImageControllerDelegate: AnyObject {
-//    func didSelectImage(_ image: UIImage, description: String)
-//}
-//
-//class PostImageController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-//    
-//    let imagePicker = UIImagePickerController()
-//    var selectedImage: UIImage?
-//    var delegate: PostImageControllerDelegate?
-//    
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        imagePicker.delegate = self
-//    }
-
-
 import Alamofire
 import UIKit
 
@@ -35,10 +17,6 @@ class PostImageController: UIViewController {
         super.viewDidLoad()
     }
     @IBAction func imageAction(_ sender: Any) {
-//        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-//              imagePicker.sourceType = .photoLibrary
-//              present(imagePicker, animated: true, completion: nil)
-//          }
         selectImage()
       }
     
