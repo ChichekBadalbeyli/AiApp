@@ -18,7 +18,7 @@ class NetworkManager {
                    method: method,
                    parameters: parameters,
                    encoding: encoding,
-                   headers: NetworkConstants.header).responseDecodable(of: T .self) { response in
+                   headers: NetworkConstants.getHeaders()).responseDecodable(of: T .self) { response in
             switch response.result {
             case.success (let data):
                 completion(data, nil)

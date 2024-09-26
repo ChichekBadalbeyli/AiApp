@@ -46,7 +46,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         viewModel.savedConversations {
             DispatchQueue.main.async {
-                self.viewModel.conversations = self.viewModel.conversations.filter { $0.user_id == user.uid }
+                self.viewModel.conversations = self.viewModel.conversations.filter { $0.userID == user.uid }
                 self.table.reloadData()
             }
         }

@@ -5,16 +5,21 @@
 //  Created by Chichek on 25.07.24.
 //
 
+
 import Foundation
 import Alamofire
-//import OpenAI
 
 class NetworkConstants {
     static let baseURL = "https://api.openai.com/v1/"
     
-    static let header: HTTPHeaders = [
-        "Authorization": "Bearer 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"
-    ]
+    static let apiKey = "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"
+    
+    static func getHeaders() -> HTTPHeaders {
+        return [
+            "Authorization": "Bearer \(apiKey)",
+        ]
+    }
+    
     static func getUrl(with endpoint: String) -> String {
         return baseURL + endpoint
     }

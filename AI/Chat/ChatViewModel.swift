@@ -11,7 +11,7 @@ class ChatViewModel {
     var viewController: ChatViewController?
     
     init() {
-        self.currentConversation = Conversation(id: UUID(), messages: [], user_id: "", pinned: Bool())
+        self.currentConversation = Conversation(id: UUID(), messages: [], userID: "", pinned: Bool())
         loadConversation()
     }
     
@@ -21,7 +21,7 @@ class ChatViewModel {
             conversations.append(currentConversation)
             saveConversations(for: user)
         }
-        currentConversation = Conversation(id: UUID(), messages: [], user_id: user.uid, pinned: Bool())
+        currentConversation = Conversation(id: UUID(), messages: [], userID: user.uid, pinned: Bool())
         DispatchQueue.main.async {
             self.viewController?.table.reloadData()
         }
@@ -69,7 +69,7 @@ class ChatViewModel {
     
     func saveConversations(for user: User) {
         if !currentConversation.messages.isEmpty {
-            currentConversation.user_id = user.uid
+            currentConversation.userID = user.uid
             historyViewModel.setConversation(currentConversation)
             historyViewModel.saveConversation()
         }
@@ -79,13 +79,13 @@ class ChatViewModel {
         guard let user = Auth.auth().currentUser else { return }
         historyViewModel.savedConversations {
             DispatchQueue.main.async {
-                self.conversations = self.historyViewModel.conversations.filter { $0.user_id == user.uid }
+                self.conversations = self.historyViewModel.conversations.filter { $0.userID == user.uid }
                 if let lastViewedConversationID = UserDefaults.standard.string(forKey: "lastViewedConversationID"),
                    let uuid = UUID(uuidString: lastViewedConversationID),
                    let lastConversation = self.conversations.first(where: { $0.id == uuid }) {
                     self.currentConversation = lastConversation
                 } else {
-                    self.currentConversation = Conversation(id: UUID(), messages: [], user_id: user.uid, pinned: Bool())
+                    self.currentConversation = Conversation(id: UUID(), messages: [], userID: user.uid, pinned: Bool())
                 }
                 self.viewController?.table.reloadData()
                 self.viewController?.viewModel.scrollToBottom()

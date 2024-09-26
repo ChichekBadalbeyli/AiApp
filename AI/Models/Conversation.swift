@@ -10,6 +10,13 @@ import Foundation
 struct Conversation: Codable {
     let id: UUID
     var messages: [ChatMessage]
-    var user_id: String
+    var userID: String
     var pinned: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case messages
+        case userID = "user_id"
+        case pinned
+    }
 }

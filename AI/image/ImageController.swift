@@ -18,14 +18,14 @@ class ImageController: UIViewController, UITableViewDelegate, UITableViewDataSou
 
       override func viewDidLoad() {
           super.viewDidLoad()
-          
+
           tableView.delegate = self
           tableView.dataSource = self
-          
+
           if let image = selectedImage, let description = imageDescription {
               images.append((image: image, description: description))
           }
-          
+
           tableView.reloadData()
       }
 
@@ -36,11 +36,11 @@ class ImageController: UIViewController, UITableViewDelegate, UITableViewDataSou
       func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
           let cell = tableView.dequeueReusableCell(withIdentifier: "ImageCell", for: indexPath) as! ImageCell
           let imageData = images[indexPath.row]
-          
+
           print("Displaying image description: \(imageData.description)")
-          
+
           cell.maImage.image = imageData.image
           cell.imageDescription.text = imageData.description
           return cell
       }
-   }
+  }

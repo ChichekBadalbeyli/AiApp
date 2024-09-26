@@ -9,11 +9,11 @@ import Foundation
 import Alamofire
 
 protocol ChatManagerProtocol {
-    func getChat (endpoint:ChatEndpoint, parameters: Parameters, completion: @escaping((Welcome?,String?)-> Void))
+    func getChat (endpoint:ChatEndpoint, parameters: Parameters, completion: @escaping((ChatStruct?,String?)-> Void))
 }
 
 class ChatManager: ChatManagerProtocol {
-    func getChat(endpoint: ChatEndpoint, parameters: Parameters, completion: @escaping ((Welcome?, String?) -> Void)) {
-        NetworkManager.request(model: Welcome.self, endpoint: endpoint.rawValue, parameters: parameters, completion: completion)
+    func getChat(endpoint: ChatEndpoint, parameters: Parameters, completion: @escaping ((ChatStruct?, String?) -> Void)) {
+        NetworkManager.request(model: ChatStruct.self, endpoint: endpoint.rawValue, parameters: parameters, completion: completion)
     }
 }

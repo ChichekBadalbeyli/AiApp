@@ -25,6 +25,7 @@
 
 import Alamofire
 import UIKit
+
 class PostImageController: UIViewController {
     
     let imageManager: ImageManagerProtocol = ImageManager()
@@ -40,38 +41,53 @@ class PostImageController: UIViewController {
 //          }
         selectImage()
       }
+    
     func selectImage() {
-         let imagePicker = UIImagePickerController()
-         imagePicker.delegate = self
-         imagePicker.sourceType = .photoLibrary
-         self.present(imagePicker, animated: true, completion: nil)
-     }
-     
-     func processSelectedImage(_ image: UIImage) {
-         imageManager.processImage(image: image, prompt: "Describe the selected image") { [weak self] description, error in
-             if let error = error {
-                 print("Error: \(error)")
-             } else if let description = description {
-                 print("Image description: \(description)")
-             }
-         }
-     }
- }
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        self.present(imagePicker, animated: true, completion: nil)
+    }
 
- extension PostImageController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-         if let selectedImage = info[.originalImage] as? UIImage {
-             self.selectedImage = selectedImage
-             picker.dismiss(animated: true) {
-                 self.processSelectedImage(selectedImage)
-             }
-         }
-     }
-     
-     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-         picker.dismiss(animated: true, completion: nil)
-     }
-      
+    func processSelectedImage(_ image: UIImage) {
+        imageManager.processImage(image: image, prompt: "Describe the selected image") { [weak self] description, error in
+            guard let self = self else { return }
+
+            if let error = error {
+                print("Error: \(error)")
+            } else if let description = description {
+                print("Image description: \(description)")
+                // Navigate to ImageController after the image is processed
+                self.showImageAndDescription(image: image, description: description)
+            }
+        }
+    }
+
+    // Function to navigate to ImageController and pass the image and description
+    func showImageAndDescription(image: UIImage, description: String) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let imageController = storyboard.instantiateViewController(withIdentifier: "ImageController") as? ImageController {
+            imageController.selectedImage = image
+            imageController.imageDescription = description
+            self.navigationController?.pushViewController(imageController, animated: true)
+        }
+    }
+}
+
+extension PostImageController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[.originalImage] as? UIImage {
+            self.selectedImage = selectedImage
+            picker.dismiss(animated: true) {
+                self.processSelectedImage(selectedImage)
+            }
+        }
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+}
 //    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 //        if let selectedImage = info[.originalImage] as? UIImage {
 //            print("Image selected successfully.")
@@ -127,4 +143,4 @@ class PostImageController: UIViewController {
 //    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
 //        picker.dismiss(animated: true, completion: nil)
 //    }
-}
+
