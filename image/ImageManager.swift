@@ -9,12 +9,10 @@
 import Foundation
 import UIKit
 
-// Protocol for ImageManager to handle image processing
 protocol ImageManagerProtocol {
     func processImage(image: UIImage, prompt: String, completion: @escaping (String?, String?) -> Void)
 }
 
-// Implementation of the ImageManager
 class ImageManager: ImageManagerProtocol {
     func processImage(image: UIImage, prompt: String, completion: @escaping (String?, String?) -> Void) {
         ImageNetworkManager.requestImageEdit(with: image, prompt: prompt) { description, error in
