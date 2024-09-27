@@ -40,20 +40,8 @@ class PostImageController: UIViewController {
     }
     
     func showImageAndDescription(image: UIImage, description: String) {
-        
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        if let imageController = storyboard.instantiateViewController(withIdentifier: "ImageController") as? ImageController {
-//            imageController.selectedImage = image
-//            imageController.imageDescription = description
-//            self.navigationController?.pushViewController(imageController, animated: true)
-//        }
-        
-//        let coordinator = HistoryCoordinator(navigator: self.navigationController ?? UINavigationController())
-//        coordinator.start()
-        
         let coordinator = ImageCoordinator(navigator: self.navigationController ?? UINavigationController())
-        coordinator.start(with: image, description: description)
-        
+        coordinator.start(image: image, description: description)
     }
 }
 
