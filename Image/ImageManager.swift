@@ -15,7 +15,7 @@ protocol ImageManagerProtocol {
 
 class ImageManager: ImageManagerProtocol {
     func processImage(image: UIImage, prompt: String, completion: @escaping (String?, String?) -> Void) {
-        ImageNetworkManager.requestImageEdit(with: image, prompt: prompt) { description, error in
+        ImageNetworkManager.requestImageEdit(with: image, prompt: prompt, endpoint: ChatEndpoint.chatEndpoint.rawValue) { description, error in
             if let error = error {
                 completion(nil, error.localizedDescription)
             } else if let description = description {

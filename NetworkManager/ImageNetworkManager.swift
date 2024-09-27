@@ -11,43 +11,38 @@ import UIKit
 
 class ImageNetworkManager {
     
-    static func encodeImageToBase64(_ image: UIImage) -> String? {
-        guard let imageData = image.jpegData(compressionQuality: 0.8) else { return nil }
-        return imageData.base64EncodedString(options: .lineLength64Characters)
-    }
-    
-    static func requestImageEdit(with image: UIImage, prompt: String, completion: @escaping (String?, Error?) -> Void) {
-        guard let base64Image = encodeImageToBase64(image) else {
+    static func requestImageEdit(with image: UIImage, prompt: String, endpoint: String, completion: @escaping (String?, Error?) -> Void) {
+        guard let base64Image = ImageEncode.encodeImageToBase64(image) else {
             completion(nil, NSError(domain: "ImageEncodingError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to encode image to Base64."]))
             return
         }
-        let url = URL(string: "https://api.openai.com/v1/chat/completions")!
+       // let url = URL(string: "https://api.openai.com/v1/chat/completions")!
+        let url = URL (string: "\(NetworkConstants.getUrl(with: endpoint))")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Bearer \(NetworkConstants.apiKey)", forHTTPHeaderField: "Authorization")
         let payload: [String: Any] = [
-            "model": "gpt-4o",
-            "messages": [
-                [
-                    "role": "user",
-                    "content": [
-                        [
-                            "type": "text",
-                            "text": prompt
-                        ],
-                        [
-                            "type": "image_url",
-                            "image_url": [
-                                "url": "data:image/jpeg;base64,\(base64Image)"
+                        "model": "gpt-4o",
+                        "messages": [
+                            [
+                                "role": "user",
+                                "content": [
+                                    [
+                                        "type": "text",
+                                        "text": "What’s in this image?"
+                                    ],
+                                    [
+                                        "type": "image_url",
+                                        "image_url": [
+                                            "url": "data:image/jpeg;base64,\(base64Image)"
+                                        ]
+                                    ]
+                                ]
                             ]
-                        ]
+                        ],
+                        "max_tokens": 300
                     ]
-                ]
-            ],
-            "max_tokens": 300
-        ]
-        print("Payload: \(payload)")
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: payload, options: [])
         } catch {
@@ -57,9 +52,6 @@ class ImageNetworkManager {
         AF.request(request).responseData { response in
             switch response.result {
             case .success(let data):
-                if let rawString = String(data: data, encoding: .utf8) {
-                    print("Raw Response String: \(rawString)")
-                }
                 do {
                     let jsonResponse = try JSONDecoder().decode(ImageChatResponse.self, from: data)
                     if let content = jsonResponse.choices.first?.message.content {

@@ -10,7 +10,6 @@ import FirebaseAuth
 
 class ProfileController: UIViewController {
     
-    
     @IBOutlet weak var emailTextField: UITextField!
     
     @IBOutlet weak var fullnameTextField: UITextField!
