@@ -30,26 +30,14 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.table.reloadData()
             }
         }
-        loadUserConversations()
+        viewModel.loadUserConversations()
         conversationSearchBar.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadUserConversations()
-    }
-    
-    func loadUserConversations() {
-        guard let user = Auth.auth().currentUser else {
-            print("No user is logged in.")
-            return
-        }
-        viewModel.savedConversations {
-            DispatchQueue.main.async {
-                self.viewModel.conversations = self.viewModel.conversations.filter { $0.userID == user.uid }
-                self.table.reloadData()
-            }
-        }
+        viewModel.loadUserConversations()
+        table.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -76,19 +64,25 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let conversation = viewModel.conversations[indexPath.row]
         
-        let pinAction = UIContextualAction(style: .normal, title: conversation.pinned ? "Unpin" : "Pin") { [weak self] (action, view, completionHandler) in
-            self?.togglePin(for: conversation)
-            completionHandler(true)
-        }
-        pinAction.backgroundColor = .systemBlue
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completionHandler) in
-            self?.viewModel.conversations.remove(at: indexPath.row)
-            self?.viewModel.saveConversation()
+            guard let self = self else { return }
+            self.viewModel.conversations.remove(at: indexPath.row)
+            self.viewModel.saveConversation()
             tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            if let tabBarController = self.tabBarController,
+               let chatNavController = tabBarController.viewControllers?.first(where: { $0 is UINavigationController && ($0 as? UINavigationController)?.viewControllers.first is ChatViewController }) as? UINavigationController,
+               let chatViewController = chatNavController.viewControllers.first as? ChatViewController,
+               chatViewController.viewModel.currentConversation.id == conversation.id {
+                chatViewController.viewModel.currentConversation = Conversation(id: UUID(), messages: [], userID: "", pinned: false)
+                chatViewController.viewModel.startNewConversation()
+            }
+            
             completionHandler(true)
         }
-        return UISwipeActionsConfiguration(actions: [deleteAction, pinAction])
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
+    
     
     func togglePin(for conversation: Conversation) {
         if let index = viewModel.conversations.firstIndex(where: { $0.id == conversation.id }) {
@@ -103,15 +97,17 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         let selectedConversation = viewModel.conversations[indexPath.row]
         viewModel.setConversation(selectedConversation)
         viewModel.saveConversation()
-        if let chatViewController = navigationController?.viewControllers.first(where: { $0 is ChatViewController }) as? ChatViewController {
+        if let tabBarController = self.tabBarController,
+           let chatNavController = tabBarController.viewControllers?.first(where: { $0 is UINavigationController && ($0 as? UINavigationController)?.viewControllers.first is ChatViewController }) as? UINavigationController,
+           let chatViewController = chatNavController.viewControllers.first as? ChatViewController {
             chatViewController.viewModel.currentConversation = selectedConversation
+            tabBarController.selectedViewController = chatNavController
             chatViewController.table.reloadData()
-            navigationController?.popViewController(animated: true)
-            UserDefaults.standard.set(selectedConversation.id.uuidString, forKey: "lastViewedConversationID")
+            chatViewController.viewModel.scrollToBottom()
         }
     }
     
-    @IBAction func logoutButton(_ sender: Any) {
+    @IBAction func logOut(_ sender: Any) {
         signOut()
     }
     
@@ -147,16 +143,10 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         searchBar.resignFirstResponder()
     }
     
-    @IBAction func newPage(_ sender: Any) {
-        let coordinator = ChatCoordinator(navigator: self.navigationController ?? UINavigationController())
-        coordinator.start()
-    }
-    
     @IBAction func profileButton(_ sender: Any) {
         let coordinator = ProfileCoordinator(navigator: self.navigationController ?? UINavigationController())
         coordinator.start()
     }
-    
 }
 
 

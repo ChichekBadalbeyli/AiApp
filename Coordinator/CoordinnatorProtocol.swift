@@ -12,7 +12,3 @@ protocol Coordinator {
     var navigator: UINavigationController {get set}
     func start()
 }
-protocol ImagesCoordinator {
-    var navigator: UINavigationController {get set}
-    func start(image: UIImage, description: String)
-}

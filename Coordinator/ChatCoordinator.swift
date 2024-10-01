@@ -8,7 +8,8 @@
 import Foundation
 import UIKit
 
-class ChatCoordinator: Coordinator {
+class ChatCoordinator: ChatCoordinatorProtocol{
+
     
     var navigator: UINavigationController
     
@@ -16,10 +17,9 @@ class ChatCoordinator: Coordinator {
         self.navigator = navigator
     }
     
-    func start() {
+    func start(with conversation: Conversation) {
         let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
-        controller.viewModel.startNewConversation()
-        navigator.show(controller, sender: nil)
+        controller.viewModel.currentConversation = conversation
+        navigator.pushViewController(controller, animated: true)
     }
-    
 }

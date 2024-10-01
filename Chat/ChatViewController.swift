@@ -33,14 +33,22 @@ class ChatViewController: UIViewController, UITableViewDelegate,UITableViewDataS
         questionTextField.layer.cornerRadius = 10
         DispatchQueue.main.async {
             self.table.reloadData()
-            self.viewModel.scrollToBottom()
+           // self.viewModel.scrollToBottom()
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.loadConversation()
+        
+        // Only load the conversation from UserDefaults if the current conversation is empty
+        if viewModel.currentConversation.messages.isEmpty {
+            viewModel.loadConversation()
+        }
+        
+        table.reloadData()
+        //viewModel.scrollToBottom()
     }
+
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
@@ -57,6 +65,7 @@ class ChatViewController: UIViewController, UITableViewDelegate,UITableViewDataS
     @IBAction func newConversation(_ sender: Any) {
         viewModel.startNewConversation()
     }
+    
     
     @IBAction func historyController(_ sender: Any) {
         let coordinator = HistoryCoordinator(navigator: self.navigationController ?? UINavigationController())
@@ -82,10 +91,18 @@ class ChatViewController: UIViewController, UITableViewDelegate,UITableViewDataS
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             viewModel.currentConversation.messages.remove(at: indexPath.row)
-            if let currentUser = Auth.auth().currentUser {
-                viewModel.saveConversations(for: currentUser)
+            if viewModel.currentConversation.messages.isEmpty {
+            viewModel.deleteCurrentConversation()
+            } else {
+                if let currentUser = Auth.auth().currentUser {
+                    viewModel.saveConversations(for: currentUser)
+                }
             }
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
+    @IBAction func logOut(_ sender: Any) {
+        viewController.signOut()
+    }
+    
 }

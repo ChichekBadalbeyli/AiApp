@@ -5,17 +5,28 @@
 //  Created by Chichek on 03.08.24.
 //
 import Foundation
+import FirebaseAuth
 
 class FileManagerHelp {
     private let fileName = "conversations.json"
     
+    // Function to get the current user's userID
+    func getCurrentUserID() -> String? {
+        return Auth.auth().currentUser?.uid
+    }
     
     func getFilePath() -> URL {
+        guard let userID = getCurrentUserID() else {
+            fatalError("No logged in user")
+        }
+        
+        let fileNameWithUser = "\(userID)_\(fileName)"
         let files = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let path = files[0].appendingPathComponent(fileName)
+        let path = files[0].appendingPathComponent(fileNameWithUser)
         print("File path: \(path)")
         return path
     }
+    
     func saveConversation(data: [Conversation]) {
         do {
             let encodedData = try JSONEncoder().encode(data)
@@ -38,7 +49,6 @@ class FileManagerHelp {
         }
     }
     
-    
     func deleteConversation(at indexPath: IndexPath, completion: @escaping (Bool) -> Void) {
         getMessages { [weak self] conversations in
             guard let self = self else {
@@ -55,5 +65,6 @@ class FileManagerHelp {
             self.saveConversation(data: updatedConversations)
             completion(true)
         }
-    } 
+    }
 }
+

@@ -81,16 +81,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1kU-dT-q6h">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="mpp-0B-fll">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="KOx-a7-dv5">
-                                <rect key="frame" x="16.000000000000004" y="5" width="51.333333333333343" height="34.333333333333336"/>
+                        <barButtonItem key="leftBarButtonItem" title="LogOut" style="plain" id="1d8-ET-8mD">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" role="primary" id="PVb-JA-xdY">
+                                <rect key="frame" x="16" y="5" width="82.666666666666671" height="34.333333333333336"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="line.3.horizontal.decrease" catalog="system">
-                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="LogOut" cornerStyle="fixed"/>
                                 <connections>
-                                    <action selector="historyController:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MeP-Ws-DEf"/>
+                                    <action selector="logOut:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BNC-n6-D3J"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -99,13 +97,18 @@
                                 <rect key="frame" x="326.33333333333331" y="5" width="50.666666666666686" height="34.333333333333336"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="square.and.pencil" catalog="system">
+                                <buttonConfiguration key="configuration" style="plain">
+                                    <imageReference key="image" image="square.and.pencil" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="large"/>
                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="newConversation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="30h-59-gxP"/>
+                                    <action selector="newConversation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tvb-8G-sof"/>
                                 </connections>
                             </button>
+                            <connections>
+                                <action selector="newConveration:" destination="BYZ-38-t0r" id="bIN-2h-Yof"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -127,33 +130,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wEN-aK-ncT">
-                                <rect key="frame" x="0.0" y="159" width="393" height="558.66666666666663"/>
+                                <rect key="frame" x="0.0" y="159" width="393" height="561"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="bSP-hm-6BG" id="aHm-vD-xht"/>
                                     <outlet property="delegate" destination="bSP-hm-6BG" id="0sv-58-AgR"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AKx-jI-jn5">
-                                <rect key="frame" x="15.999999999999996" y="717.66666666666663" width="49.666666666666657" height="34.333333333333371"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="person.crop.circle" catalog="system">
-                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="profileButton:" destination="bSP-hm-6BG" eventType="touchUpInside" id="5m3-2l-ygR"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sFG-CE-Iep">
-                                <rect key="frame" x="299.66666666666669" y="717.66666666666663" width="77.333333333333314" height="34.333333333333371"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Logout">
-                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="logoutButton:" destination="bSP-hm-6BG" eventType="touchUpInside" id="B5F-50-ZdV"/>
-                                </connections>
-                            </button>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="qqv-0x-fCv">
                                 <rect key="frame" x="0.0" y="103" width="393" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -165,33 +148,38 @@
                         <viewLayoutGuide key="safeArea" id="kxI-fa-Zta"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="sFG-CE-Iep" secondAttribute="trailing" constant="16" id="0wF-T0-ydB"/>
-                            <constraint firstItem="sFG-CE-Iep" firstAttribute="centerY" secondItem="AKx-jI-jn5" secondAttribute="centerY" id="NjP-vs-XVA"/>
                             <constraint firstItem="kxI-fa-Zta" firstAttribute="trailing" secondItem="wEN-aK-ncT" secondAttribute="trailing" id="YLn-Oa-bYc"/>
                             <constraint firstItem="wEN-aK-ncT" firstAttribute="leading" secondItem="kxI-fa-Zta" secondAttribute="leading" id="ZIC-1V-xj1"/>
                             <constraint firstItem="qqv-0x-fCv" firstAttribute="trailing" secondItem="kxI-fa-Zta" secondAttribute="trailing" id="Zf2-fU-LPB"/>
                             <constraint firstItem="qqv-0x-fCv" firstAttribute="top" secondItem="kxI-fa-Zta" secondAttribute="top" id="caK-ZC-4Lu"/>
                             <constraint firstItem="wEN-aK-ncT" firstAttribute="top" secondItem="qqv-0x-fCv" secondAttribute="bottom" id="dWS-3v-bJk"/>
-                            <constraint firstItem="sFG-CE-Iep" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="AKx-jI-jn5" secondAttribute="trailing" constant="8" symbolic="YES" id="eUn-Da-USK"/>
-                            <constraint firstAttribute="bottom" secondItem="AKx-jI-jn5" secondAttribute="bottom" constant="100" id="rR4-MW-gma"/>
+                            <constraint firstItem="kxI-fa-Zta" firstAttribute="bottom" secondItem="wEN-aK-ncT" secondAttribute="bottom" id="pAM-uP-ols"/>
                             <constraint firstItem="qqv-0x-fCv" firstAttribute="leading" secondItem="kxI-fa-Zta" secondAttribute="leading" id="ruQ-qu-lIJ"/>
-                            <constraint firstItem="AKx-jI-jn5" firstAttribute="leading" secondItem="fAV-oC-7be" secondAttribute="leading" constant="16" id="vip-oW-EYr"/>
-                            <constraint firstItem="AKx-jI-jn5" firstAttribute="top" secondItem="wEN-aK-ncT" secondAttribute="bottom" id="x8H-sN-cVa"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="4un-7e-Ohj">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="9WV-kt-73x">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="nDb-Ej-RPr">
+                        <barButtonItem key="leftBarButtonItem" title="LogOut" style="plain" id="DUZ-bs-M6v">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" role="primary" id="9IT-h6-6wY">
+                                <rect key="frame" x="16" y="5" width="82.666666666666671" height="34.333333333333336"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="LogOut" cornerStyle="fixed"/>
+                                <connections>
+                                    <action selector="logOut:" destination="bSP-hm-6BG" eventType="touchUpInside" id="cB8-sP-jMf"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="A9p-p3-azW">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="OU6-cf-RS1">
                                 <rect key="frame" x="326" y="5" width="51" height="34.333333333333336"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="square.and.pencil" catalog="system">
+                                <buttonConfiguration key="configuration" style="plain" image="person.crop.circle" catalog="system">
                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="newConversation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AdH-cf-cLG"/>
-                                    <action selector="newPage:" destination="bSP-hm-6BG" eventType="touchUpInside" id="I5e-Q1-ejz"/>
+                                    <action selector="profileButton:" destination="bSP-hm-6BG" eventType="touchUpInside" id="1w1-kV-kaL"/>
                                 </connections>
                             </button>
                         </barButtonItem>
