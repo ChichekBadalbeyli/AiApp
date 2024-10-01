@@ -13,7 +13,6 @@ import FirebaseAuth
 class HistoryViewModel {
     var conversations: [Conversation] = []
     let fileManagerHelper = FileManagerHelp()
-   // var viewController = HistoryViewController()
     
     func savedConversations(completion: @escaping () -> Void) {
         fileManagerHelper.getMessages { [weak self] conversations in
@@ -22,8 +21,6 @@ class HistoryViewModel {
                 completion()
                 return
             }
-            
-            // Filter conversations by the current userID
             self.conversations = conversations.filter { $0.userID == currentUserID }
             self.sortConversations()
             completion()
@@ -48,7 +45,7 @@ class HistoryViewModel {
         sortConversations()
         saveConversation()
     }
-
+    
     func deleteConversation(withId id: UUID) {
         conversations.removeAll { $0.id == id }
         saveConversation()
@@ -72,7 +69,6 @@ class HistoryViewModel {
         savedConversations {
             DispatchQueue.main.async {
                 self.conversations = self.conversations.filter { $0.userID == user.uid }
-            //    self.viewController.table.reloadData()
             }
         }
     }

@@ -39,14 +39,10 @@ class ChatViewController: UIViewController, UITableViewDelegate,UITableViewDataS
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // Only load the conversation from UserDefaults if the current conversation is empty
         if viewModel.currentConversation.messages.isEmpty {
             viewModel.loadConversation()
         }
-        
         table.reloadData()
-        //viewModel.scrollToBottom()
     }
 
     

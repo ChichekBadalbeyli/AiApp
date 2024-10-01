@@ -10,7 +10,6 @@ import FirebaseAuth
 class FileManagerHelp {
     private let fileName = "conversations.json"
     
-    // Function to get the current user's userID
     func getCurrentUserID() -> String? {
         return Auth.auth().currentUser?.uid
     }
@@ -19,7 +18,6 @@ class FileManagerHelp {
         guard let userID = getCurrentUserID() else {
             fatalError("No logged in user")
         }
-        
         let fileNameWithUser = "\(userID)_\(fileName)"
         let files = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let path = files[0].appendingPathComponent(fileNameWithUser)
