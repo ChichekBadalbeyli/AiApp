@@ -20,8 +20,6 @@ class WelcomeViewController: UIViewController {
         super.viewDidLoad()
         lottieView.play()
         lottieView.loopMode = .loop
-
-        
     }
     
     @IBAction func signInButtonAction(_ sender: Any) {
@@ -37,41 +35,41 @@ class WelcomeViewController: UIViewController {
     
     @IBAction func googleSignIn(_ sender: Any) {
         guard let clientID = FirebaseApp.app()?.options.clientID else {
-             return
-         }
-         let config = GIDConfiguration(clientID: clientID)
-         GIDSignIn.sharedInstance.configuration = config
-         GIDSignIn.sharedInstance.signIn(withPresenting: self) { [weak self] result, error in
-             if let error = error {
-                 return
-             }
-             guard let user = result?.user,
-                   let idToken = user.idToken?.tokenString else {
-                 return
-             }
-             let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
-             Auth.auth().signIn(with: credential) { authResult, error in
-                 if let error = error {
-                     return
-                 }
-                 self?.navigateToHomeScreen()
-             }
-         }
-     }
-     
-     func navigateToHomeScreen() {
-         let scene = UIApplication.shared.connectedScenes.first
-         if let sceneDelegate = scene?.delegate as? SceneDelegate {
-             sceneDelegate.setHomeAsRoot()
-         } else {
-             print("Failed to retrieve SceneDelegate")
-         }
-     }
-     
-     func showAlert(message: String) {
-         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-         present(alert, animated: true, completion: nil)
-     }
- }
+            return
+        }
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.configuration = config
+        GIDSignIn.sharedInstance.signIn(withPresenting: self) { [weak self] result, error in
+            if let error = error {
+                return
+            }
+            guard let user = result?.user,
+                  let idToken = user.idToken?.tokenString else {
+                return
+            }
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
+            Auth.auth().signIn(with: credential) { authResult, error in
+                if let error = error {
+                    return
+                }
+                self?.navigateToHomeScreen()
+            }
+        }
+    }
+    
+    func navigateToHomeScreen() {
+        let scene = UIApplication.shared.connectedScenes.first
+        if let sceneDelegate = scene?.delegate as? SceneDelegate {
+            sceneDelegate.setHomeAsRoot()
+        } else {
+            print("Failed to retrieve SceneDelegate")
+        }
+    }
+    
+    func showAlert(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+}
 

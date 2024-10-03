@@ -33,7 +33,6 @@ class ChatViewController: UIViewController, UITableViewDelegate,UITableViewDataS
         questionTextField.layer.cornerRadius = 10
         DispatchQueue.main.async {
             self.table.reloadData()
-           // self.viewModel.scrollToBottom()
         }
     }
     
@@ -97,6 +96,7 @@ class ChatViewController: UIViewController, UITableViewDelegate,UITableViewDataS
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
+    
     @IBAction func logOut(_ sender: Any) {
         viewController.signOut()
     }

@@ -258,7 +258,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EhS-6i-NbR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="9988.5496183206105" y="-2.1126760563380285"/>
+            <point key="canvasLocation" x="7582" y="-256"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="3AF-Hh-tpR">
@@ -383,7 +383,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Lq-oH-atE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="9pp-fA-ame" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="11669.465648854961" y="-2.1126760563380285"/>
+            <point key="canvasLocation" x="9869" y="-256"/>
         </scene>
         <!--Register View Controller-->
         <scene sceneID="QxD-07-s95">
@@ -510,7 +510,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cV3-co-z93" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="12408.396946564884" y="-2.1126760563380285"/>
+            <point key="canvasLocation" x="7581" y="473"/>
         </scene>
         <!--Welcome View Controller-->
         <scene sceneID="jca-JI-6Mq">
@@ -619,7 +619,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aWk-lI-0d2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="14130.534351145037" y="-2.1126760563380285"/>
+            <point key="canvasLocation" x="9868" y="473"/>
         </scene>
         <!--Profile-->
         <scene sceneID="ZW8-lU-15Q">
@@ -734,7 +734,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6pO-eV-Ua9">
                                 <rect key="frame" x="309.66666666666669" y="59" width="53.333333333333314" height="34.333333333333343"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Edit"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Edit">
+                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
                                 <connections>
                                     <action selector="editButtonAction:" destination="Pvk-1w-61b" eventType="touchUpInside" id="cnc-Lf-uBi"/>
                                 </connections>
@@ -784,7 +786,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oHf-FC-ASm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10820.6106870229" y="-2.1126760563380285"/>
+            <point key="canvasLocation" x="8650" y="-256"/>
         </scene>
         <!--Chat-->
         <scene sceneID="j7O-sh-1yk">
@@ -925,8 +927,8 @@
                     </tabBar>
                     <connections>
                         <segue destination="Gq9-JX-xoD" kind="relationship" relationship="viewControllers" id="HzG-cE-bfq"/>
-                        <segue destination="0l6-Vl-dPc" kind="relationship" relationship="viewControllers" id="t7P-jZ-aYc"/>
                         <segue destination="AfA-hF-4cw" kind="relationship" relationship="viewControllers" id="Evu-jB-VTr"/>
+                        <segue destination="0l6-Vl-dPc" kind="relationship" relationship="viewControllers" id="t7P-jZ-aYc"/>
                         <segue destination="Pvk-1w-61b" kind="relationship" relationship="viewControllers" id="Nah-II-BF8"/>
                     </connections>
                 </tabBarController>
@@ -969,7 +971,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nhp-il-MlD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="13203.816793893129" y="-2.1126760563380285"/>
+            <point key="canvasLocation" x="8650" y="473"/>
         </scene>
         <!--Image-->
         <scene sceneID="bGp-bs-N4x">
@@ -1027,10 +1029,10 @@
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="secondaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="secondarySystemGroupedBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1039,19 +1041,19 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray6Color">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGrayColor">
-            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tableBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="tertiaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29803921568627451" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29803921570000003" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiarySystemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

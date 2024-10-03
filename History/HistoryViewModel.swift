@@ -17,7 +17,6 @@ class HistoryViewModel {
             completion()
             return
         }
-        
         fileManagerHelper.getConversations(for: currentUserID) { [weak self] conversations in
             guard let self = self else { return }
             
@@ -43,7 +42,6 @@ class HistoryViewModel {
         } else {
             conversations.append(conversationToSave)
         }
-        
         sortConversations()
         saveConversation()
     }
@@ -68,7 +66,6 @@ class HistoryViewModel {
             print("No user is logged in.")
             return
         }
-        
         savedConversations {
             DispatchQueue.main.async {
                 self.conversations = self.conversations.filter { $0.userID == user.uid }

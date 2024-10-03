@@ -27,20 +27,19 @@ class ChatViewModel {
         }
         
     }
+    
     func getChatDatas(prompt: String) {
         guard let user = Auth.auth().currentUser else { return }
         if !historyViewModel.conversations.contains(where: { $0.id == currentConversation.id }) {
             currentConversation = Conversation(id: UUID(), messages: [], userID: user.uid, pinned: false)
             historyViewModel.setConversation(currentConversation)
         }
-        
         let parameters: [String: Any] = [
             "model": "gpt-3.5-turbo",
             "messages": [
                 ["role": "user", "content": prompt]
             ]
         ]
-        
         let userMessage = ChatMessage(role: "user", content: prompt, isUser: true)
         currentConversation.messages.append(userMessage)
         saveConversations(for: user)
@@ -105,9 +104,7 @@ class ChatViewModel {
             guard let self = self else { return }
             
             DispatchQueue.main.async {
-                // Ensure conversations are filtered by the current user
                 self.conversations = self.historyViewModel.conversations.filter { $0.userID == user.uid }
-                
                 if let lastViewedConversationID = UserDefaults.standard.string(forKey: "lastActiveConversationID"),
                    let uuid = UUID(uuidString: lastViewedConversationID),
                    let lastConversation = self.conversations.first(where: { $0.id == uuid }) {
@@ -121,7 +118,6 @@ class ChatViewModel {
             }
         }
     }
-
 }
 
 

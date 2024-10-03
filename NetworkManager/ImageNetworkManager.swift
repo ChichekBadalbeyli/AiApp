@@ -16,33 +16,35 @@ class ImageNetworkManager {
             completion(nil, NSError(domain: "ImageEncodingError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to encode image to Base64."]))
             return
         }
-       // let url = URL(string: "https://api.openai.com/v1/chat/completions")!
-        let url = URL (string: "\(NetworkConstants.getUrl(with: endpoint))")!
-        var request = URLRequest(url: url)
+        guard let url = URL(string: NetworkConstants.getUrl(with: endpoint)) else {
+            completion(nil, NSError(domain: "URLError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL provided."]))
+            return
+        }
+        var request = URLRequest(url:url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Bearer \(NetworkConstants.apiKey)", forHTTPHeaderField: "Authorization")
         let payload: [String: Any] = [
-                        "model": "gpt-4o",
-                        "messages": [
-                            [
-                                "role": "user",
-                                "content": [
-                                    [
-                                        "type": "text",
-                                        "text": "What’s in this image?"
-                                    ],
-                                    [
-                                        "type": "image_url",
-                                        "image_url": [
-                                            "url": "data:image/jpeg;base64,\(base64Image)"
-                                        ]
-                                    ]
-                                ]
-                            ]
+            "model": "gpt-4o",
+            "messages": [
+                [
+                    "role": "user",
+                    "content": [
+                        [
+                            "type": "text",
+                            "text": "What’s in this image?"
                         ],
-                        "max_tokens": 300
+                        [
+                            "type": "image_url",
+                            "image_url": [
+                                "url": "data:image/jpeg;base64,\(base64Image)"
+                            ]
+                        ]
                     ]
+                ]
+            ],
+            "max_tokens": 300
+        ]
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: payload, options: [])
         } catch {
