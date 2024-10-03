@@ -8,49 +8,51 @@
 import Foundation
 import FirebaseAuth
 
-import FirebaseAuth
-
 class HistoryViewModel {
     var conversations: [Conversation] = []
     let fileManagerHelper = FileManagerHelp()
-    
+
     func savedConversations(completion: @escaping () -> Void) {
-        fileManagerHelper.getMessages { [weak self] conversations in
+        guard let currentUserID = Auth.auth().currentUser?.uid else {
+            completion()
+            return
+        }
+        
+        fileManagerHelper.getConversations(for: currentUserID) { [weak self] conversations in
             guard let self = self else { return }
-            guard let currentUserID = Auth.auth().currentUser?.uid else {
-                completion()
-                return
-            }
-            self.conversations = conversations.filter { $0.userID == currentUserID }
+            
+            self.conversations = conversations
             self.sortConversations()
             completion()
         }
     }
-    
+
     func saveConversation() {
-        fileManagerHelper.saveConversation(data: conversations)
+        guard let currentUserID = Auth.auth().currentUser?.uid else { return }
+        fileManagerHelper.saveConversations(data: conversations, for: currentUserID)
     }
-    
+
     func setConversation(_ conversation: Conversation) {
         guard let currentUserID = Auth.auth().currentUser?.uid else { return }
         
         var conversationToSave = conversation
-        conversationToSave.userID = currentUserID // Ensure userID is assigned
+        conversationToSave.userID = currentUserID
         
         if let index = conversations.firstIndex(where: { $0.id == conversation.id }) {
             conversations[index] = conversationToSave
         } else {
             conversations.append(conversationToSave)
         }
+        
         sortConversations()
         saveConversation()
     }
-    
+
     func deleteConversation(withId id: UUID) {
         conversations.removeAll { $0.id == id }
         saveConversation()
     }
-    
+
     func sortConversations() {
         conversations.sort {
             if $0.pinned != $1.pinned {
@@ -60,12 +62,13 @@ class HistoryViewModel {
             }
         }
     }
-    
+
     func loadUserConversations() {
         guard let user = Auth.auth().currentUser else {
             print("No user is logged in.")
             return
         }
+        
         savedConversations {
             DispatchQueue.main.async {
                 self.conversations = self.conversations.filter { $0.userID == user.uid }
@@ -73,3 +76,4 @@ class HistoryViewModel {
         }
     }
 }
+

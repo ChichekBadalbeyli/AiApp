@@ -10,45 +10,50 @@ import FirebaseAuth
 class FileManagerHelp {
     private let fileName = "conversations.json"
     
-    func getCurrentUserID() -> String? {
-        return Auth.auth().currentUser?.uid
-    }
-    
     func getFilePath() -> URL {
-        guard let userID = getCurrentUserID() else {
-            fatalError("No logged in user")
-        }
-        let fileNameWithUser = "\(userID)_\(fileName)"
         let files = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let path = files[0].appendingPathComponent(fileNameWithUser)
+        let path = files[0].appendingPathComponent(fileName)
         print("File path: \(path)")
         return path
     }
     
-    func saveConversation(data: [Conversation]) {
-        do {
-            let encodedData = try JSONEncoder().encode(data)
-            try encodedData.write(to: getFilePath(), options: .atomic)
-            print("Conversations saved successfully.")
-        } catch {
-            print("Failed to save conversations: \(error.localizedDescription)")
+    func saveConversations(data: [Conversation], for userID: String) {
+        getAllConversations { [weak self] allConversations in
+            guard let self = self else { return }
+
+            var updatedConversations = allConversations
+            updatedConversations[userID] = data
+            do {
+                let encodedData = try JSONEncoder().encode(updatedConversations)
+                try encodedData.write(to: self.getFilePath(), options: .atomic)
+                print("Conversations for user \(userID) saved successfully.")
+            } catch {
+                print("Failed to save conversations: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func getConversations(for userID: String, completion: @escaping ([Conversation]) -> Void) {
+        getAllConversations { allConversations in
+            let userConversations = allConversations[userID] ?? []
+            completion(userConversations)
         }
     }
     
-    func getMessages(completion: @escaping ([Conversation]) -> Void) {
+    func getAllConversations(completion: @escaping ([String: [Conversation]]) -> Void) {
         do {
             let data = try Data(contentsOf: getFilePath())
-            let conversations = try JSONDecoder().decode([Conversation].self, from: data)
-            completion(conversations)
-            print("Conversations loaded successfully.")
+            let allConversations = try JSONDecoder().decode([String: [Conversation]].self, from: data)
+            completion(allConversations)
+            print("All conversations loaded successfully.")
         } catch {
             print("Failed to load conversations: \(error.localizedDescription)")
-            completion([])
+            completion([:])
         }
     }
-    
-    func deleteConversation(at indexPath: IndexPath, completion: @escaping (Bool) -> Void) {
-        getMessages { [weak self] conversations in
+
+    func deleteConversation(at indexPath: IndexPath, for userID: String, completion: @escaping (Bool) -> Void) {
+        getConversations(for: userID) { [weak self] conversations in
             guard let self = self else {
                 completion(false)
                 return
@@ -60,7 +65,7 @@ class FileManagerHelp {
             }
             var updatedConversations = conversations
             updatedConversations.remove(at: indexPath.row)
-            self.saveConversation(data: updatedConversations)
+            self.saveConversations(data: updatedConversations, for: userID)
             completion(true)
         }
     }
